@@ -1,5 +1,10 @@
+// Limpar preferência de idioma antiga (inglês) para forçar português
+if (localStorage.getItem('portfolio-lang') === 'en') {
+    localStorage.removeItem('portfolio-lang');
+}
+
 const AppState = {
-    currentLang: 'en',
+    currentLang: 'pt',
     currentTheme: 'dark',
     currentSection: 'home',
     isMenuOpen: false,
@@ -27,6 +32,7 @@ function loadPreferences() {
     const savedLang = localStorage.getItem('portfolio-lang');
     const savedTheme = localStorage.getItem('portfolio-theme');
     if (savedLang) AppState.currentLang = savedLang;
+    else AppState.currentLang = 'pt';
     if (savedTheme) AppState.currentTheme = savedTheme;
 }
 
@@ -39,7 +45,7 @@ function initLanguage() {
 }
 
 function toggleLanguage() {
-    const newLang = AppState.currentLang === 'en' ? 'ar' : 'en';
+    const newLang = AppState.currentLang === 'pt' ? 'ar' : 'pt';
     setLanguage(newLang);
     localStorage.setItem('portfolio-lang', newLang);
 }
@@ -55,9 +61,9 @@ function setLanguage(lang) {
         body.setAttribute('data-lang', 'ar');
         body.setAttribute('data-dir', 'rtl');
     } else {
-        html.setAttribute('lang', 'en');
+        html.setAttribute('lang', 'pt-BR');
         html.setAttribute('dir', 'ltr');
-        body.setAttribute('data-lang', 'en');
+        body.setAttribute('data-lang', 'pt');
         body.setAttribute('data-dir', 'ltr');
     }
     updateLanguageUI();
@@ -70,7 +76,8 @@ function updateLanguageUI() {
         const arText = element.getAttribute('data-text-ar');
         if (AppState.currentLang === 'ar' && arText) {
             element.textContent = arText;
-        } else if (AppState.currentLang === 'en' && enText) {
+        } else if (enText) {
+            // data-text-en agora contém o texto em português
             element.textContent = enText;
         }
     });
@@ -81,7 +88,7 @@ function updateLanguageUI() {
         const arPlaceholder = element.getAttribute('data-placeholder-ar');
         if (AppState.currentLang === 'ar' && arPlaceholder) {
             element.setAttribute('placeholder', arPlaceholder);
-        } else if (AppState.currentLang === 'en' && enPlaceholder) {
+        } else if (enPlaceholder) {
             element.setAttribute('placeholder', enPlaceholder);
         }
     });
@@ -90,7 +97,7 @@ function updateLanguageUI() {
     if (langToggle) {
         const langText = langToggle.querySelector('.lang-text');
         if (langText) {
-            langText.textContent = AppState.currentLang === 'en' ? 'AR' : 'EN';
+            langText.textContent = AppState.currentLang === 'ar' ? 'PT' : 'AR';
         }
     }
 }
@@ -231,7 +238,7 @@ function handleFormSubmit(e) {
     
     const message = AppState.currentLang === 'ar' 
         ? 'تم إرسال الرسالة بنجاح!' 
-        : 'Message sent successfully!';
+        : 'Mensagem enviada com sucesso!';
     
     alert(message);
     e.target.reset();
