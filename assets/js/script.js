@@ -81,6 +81,10 @@ const skillObs = new IntersectionObserver(entries => {
 
 document.querySelectorAll('.skill-cat').forEach(el => skillObs.observe(el));
 
+document.getElementById('menu-btn').addEventListener('click', () => {
+  document.querySelector('.nav-links').classList.toggle('open');
+});
+
 // ─── CONTACT FORM ─────────────────────────────────────
 document.getElementById('contactForm').addEventListener('submit', e => {
   e.preventDefault();
